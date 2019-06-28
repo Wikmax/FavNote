@@ -3,7 +3,7 @@
     "files.autoSave": "afterDelay",
     "singleQuote": true,
     "trailingComma": "all",
-    "printWidth": 100,
+    "printWidth": 150,
     "prettier.tabWidth": 2,
     "editor.formatOnSave": true,
     "eslint.autoFixOnSave": true,
