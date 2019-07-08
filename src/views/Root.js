@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from 'store';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import MainTemplate from 'templates/MainTemplate';
 import Notes from 'views/Notes';
@@ -8,9 +10,9 @@ import { routes } from 'routes';
 import DetailsPage from './DetailsPage';
 
 const Root = () => (
-  <div>
-    <MainTemplate>
-      <BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <MainTemplate>
         <Switch>
           <Route exact path={routes.home} render={() => <Redirect to="/notes" />} />
           <Route exact path={routes.notes} component={Notes} />
@@ -18,11 +20,11 @@ const Root = () => (
           <Route exact path={routes.articles} component={Articles} />
           <Route path={routes.article} component={DetailsPage} />
           <Route exact path={routes.twitters} component={Twitters} />
-          <Route path={routes.twittes} component={DetailsPage} />
+          <Route path={routes.twitter} component={DetailsPage} />
         </Switch>
-      </BrowserRouter>
-    </MainTemplate>
-  </div>
+      </MainTemplate>
+    </BrowserRouter>
+  </Provider>
 );
 
 export default Root;
