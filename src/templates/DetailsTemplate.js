@@ -9,7 +9,7 @@ import UserPageTemplate from 'templates/UserPageTemplate';
 import withContext from 'hoc/withContext';
 
 const StyledWrapper = styled.div`
-  padding: 25px 150px 25px 70px;
+  padding: 25px 150px 25px 220px;
   max-width: 50vw;
   position: relative;
 

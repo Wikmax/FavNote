@@ -11,21 +11,24 @@ import { removeItem as removeItemAction } from 'actions';
 import withContext from 'hoc/withContext';
 
 const StyledWrapper = styled.div`
-  box-shadow: 0 10px 30px -5px hsla(0, 0%, 0%, 0.1);
+  min-height: 380px;
+  box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1);
   border-radius: 10px;
   overflow: hidden;
-  min-height: 380px;
   position: relative;
   display: grid;
   grid-template-rows: 0.25fr 1fr;
 `;
+
 const InnerWrapper = styled.div`
   position: relative;
   padding: 17px 30px;
   background-color: ${({ activeColor, theme }) => (activeColor ? theme[activeColor] : 'white')};
+
   :first-of-type {
     z-index: 9999;
   }
+
   ${({ flex }) =>
     flex &&
     css`
@@ -34,14 +37,17 @@ const InnerWrapper = styled.div`
       justify-content: space-between;
     `}
 `;
-const DateInfo = styled(Paragraph)`
-  margin: 0 0 5px;
-  font-weight: ${({ theme }) => theme.bold};
-  font-size: ${({ theme }) => theme.fontSize.xs};
-`;
+
+// const DateInfo = styled(Paragraph)`
+//   margin: 0 0 5px;
+//   font-weight: ${({ theme }) => theme.bold};
+//   font-size: ${({ theme }) => theme.fontSize.xs};
+// `;
+
 const StyledHeading = styled(Heading)`
   margin: 5px 0 0;
 `;
+
 const StyledAvatar = styled.img`
   width: 86px;
   height: 86px;
@@ -51,11 +57,11 @@ const StyledAvatar = styled.img`
   right: 25px;
   top: 25px;
 `;
+
 const StyledLinkButton = styled.a`
   display: block;
   width: 47px;
   height: 47px;
-  border: 5px solid ${({ theme }) => theme.articles};
   border-radius: 50px;
   background: white url(${LinkIcon}) no-repeat;
   background-size: 60%;
@@ -74,16 +80,17 @@ class Card extends Component {
   handleCardClick = () => this.setState({ redirect: true });
 
   render() {
-    const { id, pageContext, title, created, twitterName, articleUrl, content, removeItem } = this.props;
+    const { id, pageContext, title, twitterName, articleUrl, content, removeItem } = this.props;
     const { redirect } = this.state;
+
     if (redirect) {
-      return <Redirect to={`${pageContext}/${id}`} />;
+      return <Redirect to={`${pageContext}/details/${id}`} />;
     }
+
     return (
-      <StyledWrapper onClick={this.handleCardClick}>
-        <InnerWrapper activeColor={pageContext}>
+      <StyledWrapper>
+        <InnerWrapper onClick={this.handleCardClick} activeColor={pageContext}>
           <StyledHeading>{title}</StyledHeading>
-          <DateInfo>{created}</DateInfo>
           {pageContext === 'twitters' && <StyledAvatar src={`https://avatars.io/twitter/${twitterName}`} />}
           {pageContext === 'articles' && <StyledLinkButton href={articleUrl} />}
         </InnerWrapper>
@@ -99,16 +106,17 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  id: PropTypes.number.isRequired,
-  pageContext: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   title: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
   twitterName: PropTypes.string,
   articleUrl: PropTypes.string,
   content: PropTypes.string.isRequired,
   removeItem: PropTypes.func.isRequired,
 };
+
 Card.defaultProps = {
+  pageContext: 'notes',
   twitterName: null,
   articleUrl: null,
 };
